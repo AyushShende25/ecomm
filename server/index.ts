@@ -3,9 +3,12 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { StatusCodes } from "http-status-codes";
-import { env } from "./config/env";
 
-const app = new Hono();
+import { env } from "@/config/env";
+import pizzaRoutes from "@/modules/pizza/pizza.routes";
+
+const app = new Hono({ strict: false }).basePath("/api");
+
 app.use(logger());
 app.use(prettyJSON());
 
@@ -14,6 +17,8 @@ app.get("/health", (c) =>
     message: "ok",
   }),
 );
+
+app.route("/pizza", pizzaRoutes);
 
 app.onError((err, c) => {
   if (err instanceof HTTPException) {
@@ -28,6 +33,7 @@ app.onError((err, c) => {
       );
     return errResponse;
   }
+  console.log(err);
   return c.json(
     {
       success: false,
