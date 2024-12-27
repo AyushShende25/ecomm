@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "bun --hot server/index.ts",
-    "format": "bunx biome check --write ./server"
+    "format": "bunx biome check --write ."
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
